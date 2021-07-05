@@ -1,8 +1,45 @@
-﻿@{
-    ViewBag.Title = "Home Page";
+﻿@model IEnumerable<IIUCManagement.Models.Student>  
+
+@{
+    ViewBag.Title = "Index";
 }
 
-<div class="jumbotron">
+
+<table class="table table-dark">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">StudentId</th>
+            <th scope="col">StudentName</th>
+            <th scope="col">DateofBirth</th>
+            <th scope="col">Weight</th>
+            <th scope="col">Height</th>
+        </tr>
+    </thead>
+    <tbody>
+    @{
+        foreach (var item in Model)
+        {
+            <tr>
+                <th scope="row">1</th>
+                <td>@item.StudentId</td>
+                <td>@item.StudentName</td>
+                <td>@item.DateofBirth</td>
+                <td>@item.Weight</td>
+                <td>@item.Height</td>
+            </tr> 
+        }
+
+    }
+     
+    </tbody>
+</table>
+
+
+
+
+
+@*<div class="jumbotron">
     <h1>ASP.NET</h1>
     <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
     <p><a href="https://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
@@ -28,4 +65,4 @@
         <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
         <p><a class="btn btn-default" href="https://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
-</div>
+</div>*@
