@@ -18,23 +18,34 @@ namespace IIUCManagement.Controllers
             return View(data);
         }
 
-        public ActionResult About()
+        
+        [HttpPost]
+        //Student Entity Class er object banaisi student
+        public ActionResult Create(Student student)
         {
-            ViewBag.Message = "Your application description page.";
+            if (ModelState.IsValid == true)
+            {
+                db.Students.Add(student);
+                //row insert hoise kina dekhar jonno int a niche.
+                int a = db.SaveChanges();
+                if (a > 0)
+                {
+                    TempData["InsertMessage"] = "<script>alert('Data Inserted') </script>";
+                    return RedirectToAction("Index");
+                }
 
+            }
+            else
+            {
+
+                    ViewBag.InsertMessage = "<script>alert('Fail') </script>";
+            }
             return View();
         }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
-
-            return View();
-        }
-
         public ActionResult Create()
         {
             return View();
         }
+
     }
 }

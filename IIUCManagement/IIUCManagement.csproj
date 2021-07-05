@@ -139,8 +139,11 @@
     <Compile Include="Migrations\202107051544047_TableAdded.designer.cs">
       <DependentUpon>202107051544047_TableAdded.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202107051801073_ModelDeleted.cs" />
+    <Compile Include="Migrations\202107051801073_ModelDeleted.designer.cs">
+      <DependentUpon>202107051801073_ModelDeleted.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\Grade.cs" />
     <Compile Include="Models\SchoolContext.cs" />
     <Compile Include="Models\Student.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -178,8 +181,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
-    <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\Create.cshtml" />
   </ItemGroup>
@@ -205,6 +206,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202107051544047_TableAdded.resx">
       <DependentUpon>202107051544047_TableAdded.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202107051801073_ModelDeleted.resx">
+      <DependentUpon>202107051801073_ModelDeleted.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

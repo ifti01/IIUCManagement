@@ -1,146 +1,58 @@
-﻿@*@{
-    ViewBag.Title = "Create";
+﻿@model IIUCManagement.Models.Student
 
-    var imageURL = "/Content/images/system/placeholder-image.png";
+@{
+    ViewBag.Title = "Create";
 }
 
-<h2>Create Category</h2>
+<h2>Create</h2>
 
-<form id="createCategory">
-    <div class="row">
-        <div class="col-md-8">
-            <div class="form-group">
-                <label>Name <span class="text-danger">*</span> </label>
-                <input class="form-control" name="Name" />
-            </div>
-            <div class="form-group">
-                <label>Description</label>
-                <input class="form-control" name="Description" />
-            </div>
-            <div class="form-group">
-                <label>Image</label>
-                <input type="hidden" id="ImageURL" name="ImageURL" />
-                <input class="form-control" id="imageUpload" name="Image" type="file" accept=".png, .jpg" />
-            </div>
-            <div class="form-group">
-                <label>Is Featured?</label>
-                <div class="input-group">
-                    <div class="radio form-control">
-                        <label><input name="isFeatured" type="radio" value="True" /> True</label>
-                    </div>
-                    <div class="radio form-control">
-                        <label><input name="isFeatured" type="radio" value="False" /> False</label>
-                    </div>
-                </div>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Student</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group">
+            @Html.LabelFor(model => model.StudentName, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StudentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StudentName, "", new { @class = "text-danger" })
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="thumb">
-                <img class="img-thumbnail img-fluid" id="categoryImage" src="@imageURL" />
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.DateofBirth, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DateofBirth, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DateofBirth, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Weight, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Weight, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Weight, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Height, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Height, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Height, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
             </div>
         </div>
     </div>
-
-    <button id="saveBtn" type="button" class="btn btn-primary">Save</button>
-    <button id="cancelBtn" type="button" class="btn btn-primary">Cancel</button>
-</form>
-
-<script>
-    $("#imageUpload").change(function () {
-        var element = this;
-        var formData = new FormData();
-        var totalFiles = element.files.length;
-        for (var i = 0; i < totalFiles; i++) {
-            var file = element.files[i];
-            formData.append("Photo", file);
-        }
-        $.ajax({
-            type: 'POST',
-            url: '@Url.Action("UploadImage", "Shared")',
-            dataType: 'json',
-            data: formData,
-            contentType: false,
-            processData: false
-        })
-            .done(function (response) {
-                console.log(response);
-                if (response.Success) {
-                    $("#ImageURL").val(response.ImageURL);
-                    $("#categoryImage").attr("src", response.ImageURL);
-                }
-            })
-            .fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                alert("FAIL");
-            });
-    });
-     $('#createCategory').validate({ // initialize the plugin
-        rules: {
-            Name: {
-                required: true,
-                minlength: 5,
-                maxlength:50
-            },
-            Description: {
-                maxlength: 500
-            }
-         },
-         messages: {
-             Name: {
-                required: 'Name is required',
-                minlength: 'minimum length is 5',
-                 maxlength: 'maximum length is 50'
-            },
-            Description: {
-                maxlength: 'maximum length is 500'
-            }
-         }
-     });
-    $("#saveBtn").click(function () {
-        if ($("#createCategory").valid()) {
-            $.ajax({
-                type: 'POST',
-                url: '@Url.Action("Create", "Category")',
-                data: $("#createCategory").serialize()
-            })
-                .done(function (response) {
-                    $("#tableContainer").html(response);
-                    $("#actionContainer").html("");
-                    focusAction("#tableContainer");
-                })
-                .fail(function (XMLHttpRequest, textStatus, errorThrown) {
-                    swal({
-                        title: "Are you sure?",
-                        text: "Without fulfill all the data save will not possible!",
-                        icon: "warning",
-                        buttons: true,
-                        dangerMode: true,
-                    })
-                        .then((willDelete) => {
-                            if (willDelete) {
-                                swal("Poof! Your imaginary file has been deleted!", {
-                                    icon: "success",
-                                });
-                            }
-                            else {
-                                swal("Your imaginary file is safe!");
-                            }
-                        });
-                });
-        }
-        else {
-            swal({
-                title: "Js Warning?",
-                text: "Once deleted, you will not be able to recover this imaginary file!",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            });
-        }
-    });
-    $("#cancelBtn").click(function () {
-        $("#actionContainer").html("");
-        focusAction("#tableContiner");
-    });
-</script>*@
+}
 
 
