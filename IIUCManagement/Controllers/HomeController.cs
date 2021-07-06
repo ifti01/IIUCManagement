@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -46,6 +47,32 @@ namespace IIUCManagement.Controllers
         {
             return View();
         }
+        public ActionResult Edit(int id)
+        {
+            var row = db.Students.Where(model => model.StudentId == id).FirstOrDefault();
+            return View(row);
+        }
 
+        [HttpPost]
+        public ActionResult Edit(Student student)
+        {
+            if (ModelState.IsValid == true)
+            {
+                db.Entry(student).State = EntityState.Modified;
+                int a = db.SaveChanges();
+                if (a > 0)
+                {
+                    TempData["UpdateMessage"] = "<script>alert('Data Updated') </script>";
+                    return RedirectToAction("Index");
+                }
+                else
+                {
+                    ViewBag.UpdateMessage = "<script>alert('Fail') </script>";
+                }
+            }
+
+            return View();
+        }
+    //    https://www.geeksforgeeks.org/basic-crud-create-read-update-delete-in-asp-net-mvc-using-c-sharp-and-entity-framework/
     }
 }
