@@ -11,12 +11,21 @@ namespace IIUCManagement.Controllers
     public class HomeController : Controller
     {
         SchoolContext db = new SchoolContext();
-        public ActionResult Index()
+        public ActionResult Index(string searchBy,string search)
         {
+            if (searchBy == "ID")
+            {
+                return View(db.Students.Where(x => x.StudentId.ToString() == search || search == null).ToList());
+            }
+            else
+            { 
+                return View(db.Students.Where(x => x.StudentName.StartsWith(search) || search == null).ToList());
+            }
+
+
+            //var data = db.Students.ToList();
             
-            var data = db.Students.ToList();
-            
-            return View(data);
+            //return View(data);
         }
 
         
